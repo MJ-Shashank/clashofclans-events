@@ -1,0 +1,6 @@
+node_modules/
+test/
+.eslintrc.js
+.vscode
+.vscode/
+package-lock.json
