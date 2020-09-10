@@ -32,7 +32,7 @@ There are 2 arguments options and events, `options : { ratelimit, tokens, sync }
 Note: Set `true` only if events are required.
 
 ```
-const Client = require('clash-of-clans');
+const Client = require('clashofclans-events');
 
 const Coc = new Client({
     ratelimit: 10,  // default is 10 events/sec
