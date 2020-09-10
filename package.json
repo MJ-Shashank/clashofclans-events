@@ -1,0 +1,23 @@
+{
+  "name": "clash-of-clans",
+  "version": "1.0.1",
+  "description": "A Simple JavaScript Clash Of Clan Event based library.",
+  "main": "src/index.js",
+  "scripts": {
+    "example": "node example.js"
+  },
+  "keywords": [
+    "clashofclans",
+    "coc",
+    "coc.js",
+    "clash-of-clans",
+    "clash of clans"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MJ-Shashank/clash-of-clan"
+  },
+  "homepage": "https://github.com/MJ-Shashank/clash-of-clan#readme",
+  "author": "MJ Shashank",
+  "license": "MIT"
+}
