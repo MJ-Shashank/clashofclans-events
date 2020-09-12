@@ -8,7 +8,7 @@ module.exports.playerDemote = (emitter, oldData, newData, previousPlayer, curren
       members: newData.members,
       type: newData.type,
     },
-    currentPlayer,
+    ...currentPlayer,
     previous: previousPlayer.role,
     current: currentPlayer.role,
   };

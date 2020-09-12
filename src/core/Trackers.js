@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable linebreak-style */
 /* eslint-disable class-methods-use-this */
@@ -22,6 +23,7 @@ global.cocEvents = new Events();
 
 const clansData = new Map();
 const Tags = [];
+let timerReset = 0;
 let eventCount = 0;
 const Role = ['member', 'admin', 'coLeader', 'leader'];
 
@@ -122,8 +124,9 @@ class Trackers {
       await this.tracker(this._tag(tag));
       await this.sleep(100);
     }
-
-    await this.sleep(this.sync * 1000 - ((Tags.length * 100 + eventCount * (1000 / this.ratelimit)) <= (this.sync * 1000) ? (Tags.length * 100 + eventCount * (1000 / this.ratelimit)) : 0));
+    const newTimerReset = new Date().getTime();
+    await this.sleep((newTimerReset - timerReset) > 0 ? (newTimerReset - timerReset) : 0);
+    timerReset = newTimerReset;
     eventCount = 0;
     await this.reset();
   }
@@ -294,7 +297,7 @@ class Trackers {
           if (left.length > 0) {
             for (const player of left) {
               await this.sleep(1000 / this.ratelimit);
-              await playerLeft(cocEvents, player, newData);
+              playerLeft(cocEvents, player, newData);
               eventCount++;
             }
           }

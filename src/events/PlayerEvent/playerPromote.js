@@ -8,7 +8,7 @@ module.exports.playerPromote = (emitter, oldData, newData, previousPlayer, curre
       members: newData.members,
       type: newData.type,
     },
-    currentPlayer,
+    ...currentPlayer,
     previous: previousPlayer.role,
     current: currentPlayer.role,
   };

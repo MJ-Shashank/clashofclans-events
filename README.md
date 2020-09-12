@@ -8,13 +8,13 @@
 <div align="center">
 
 [![Status](https://img.shields.io/badge/status-active-success.svg)](https://github.com/MJ-Shashank/clashofclans-events)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/MJ-Shashank/clash-of-clan/blob/master/LICENSE)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/MJ-Shashank/clashofclans-events/blob/master/LICENSE)
 
 </div>
 
 ---
 
-<p align="center"> A Simple JavaScript Clash Of Clan Event based library that tracks Donation, Player Join and Left, Clan Activities.
+<p align="center">A Simple JavaScript Clash Of Clan Event based library that tracks Donation, Player Join and Left, Clan Activities.
     <br> 
 </p>
 
