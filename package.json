@@ -1,6 +1,6 @@
 {
   "name": "clashofclans-events",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A Simple JavaScript Clash Of Clan Event based library that tracks Donation, Player Join and Left, Clan Activities.",
   "main": "src/index.js",
   "scripts": {
