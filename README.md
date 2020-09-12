@@ -3,7 +3,7 @@
  <img width=200px height=200px src="https://clashforever.online/clashforever.png" alt="Project logo"></a>
 </p>
 
-<h3 align="center">clash-of-clans</h3>
+<h3 align="center">clashofclans-events</h3>
 
 <div align="center">
 
