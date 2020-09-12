@@ -24,7 +24,6 @@ global.cocEvents = new Events();
 const clansData = new Map();
 const Tags = [];
 let timerReset = 0;
-let eventCount = 0;
 const Role = ['member', 'admin', 'coLeader', 'leader'];
 
 /**
@@ -120,14 +119,12 @@ class Trackers {
    * @function reset()
    */
   async reset() {
+    const newTimerReset = new Date().getTime();
     for (const tag of Tags) {
       await this.tracker(this._tag(tag));
-      await this.sleep(100);
     }
-    const newTimerReset = new Date().getTime();
-    await this.sleep((newTimerReset - timerReset) > 0 ? (newTimerReset - timerReset) : 0);
-    timerReset = newTimerReset;
-    eventCount = 0;
+    timerReset = new Date().getTime();
+    await this.sleep(this.sync * 1000 - ((newTimerReset - timerReset ) > 0 && (newTimerReset - timerReset) < this.sync * 1000) ? (newTimerReset - timerReset) : 0);
     await this.reset();
   }
 
@@ -178,7 +175,6 @@ class Trackers {
           await donationEvent(cocEvents, oldData, newData, async (check) => {
             if (check) {
               await this.sleep(1000 / this.ratelimit);
-              eventCount++;
             }
           });
         }
@@ -189,63 +185,54 @@ class Trackers {
           await badgeUrls(cocEvents, oldData, newData, async (check) => {
             if (check) {
               await this.sleep(1000 / this.ratelimit);
-              eventCount++;
             }
           });
 
           await type(cocEvents, oldData, newData, async (check) => {
             if (check) {
               await this.sleep(1000 / this.ratelimit);
-              eventCount++;
             }
           });
 
           await isWarLogPublic(cocEvents, oldData, newData, async (check) => {
             if (check) {
               await this.sleep(1000 / this.ratelimit);
-              eventCount++;
             }
           });
 
           await description(cocEvents, oldData, newData, async (check) => {
             if (check) {
               await this.sleep(1000 / this.ratelimit);
-              eventCount++;
             }
           });
 
           await warFrequency(cocEvents, oldData, newData, async (check) => {
             if (check) {
               await this.sleep(1000 / this.ratelimit);
-              eventCount++;
             }
           });
 
           await warLeague(cocEvents, oldData, newData, async (check) => {
             if (check) {
               await this.sleep(1000 / this.ratelimit);
-              eventCount++;
             }
           });
 
           await requiredTrophies(cocEvents, oldData, newData, async (check) => {
             if (check) {
               await this.sleep(1000 / this.ratelimit);
-              eventCount++;
             }
           });
 
           await location(cocEvents, oldData, newData, async (check) => {
             if (check) {
               await this.sleep(1000 / this.ratelimit);
-              eventCount++;
             }
           });
 
           await clanLevel(cocEvents, oldData, newData, async (check) => {
             if (check) {
               await this.sleep(1000 / this.ratelimit);
-              eventCount++;
             }
           });
         }
@@ -263,14 +250,12 @@ class Trackers {
                 if (this.playerPromoteStatus) {
                   playerPromote(cocEvents, oldData, newData, previousPlayer, currentPlayer);
                   await this.sleep(1000 / this.ratelimit);
-                  eventCount++;
                 }
               } else {
                 // eslint-disable-next-line no-lonely-if
                 if (this.playerDemoteStatus) {
                   playerDemote(cocEvents, oldData, newData, previousPlayer, currentPlayer);
                   await this.sleep(1000 / this.ratelimit);
-                  eventCount++;
                 }
               }
             });
@@ -286,7 +271,6 @@ class Trackers {
             for (const player of join) {
               await this.sleep(1000 / this.ratelimit);
               playerJoin(cocEvents, player, newData);
-              eventCount++;
             }
           }
         }
@@ -298,7 +282,6 @@ class Trackers {
             for (const player of left) {
               await this.sleep(1000 / this.ratelimit);
               playerLeft(cocEvents, player, newData);
-              eventCount++;
             }
           }
         }
@@ -313,6 +296,9 @@ class Trackers {
       } else if (err.statusCode === 403) {
         error(cocEvents, err);
         await this.sleep(1000 * 60 * 10);
+      } else if (err.statusCode === 429) {
+        error(cocEvents, err);
+        await this.sleep(1000 * 60 * 1);
       } else {
         error(cocEvents, err);
         await this.sleep(100);
