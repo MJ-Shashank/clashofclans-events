@@ -111,7 +111,7 @@ class Trackers {
         Tags.push(this._tag(tag));
       }
     }
-
+    timerReset = new Date().getTime();
     await this.reset();
   }
 
