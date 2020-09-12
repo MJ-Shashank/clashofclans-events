@@ -156,7 +156,7 @@ class Trackers {
    */
   async tracker(tag) {
     try {
-      const newData = await this._fetch(`/v1/clans/%23${this._tag(tag)}`); console.log(newData.name);
+      const newData = await this._fetch(`/v1/clans/%23${this._tag(tag)}`);
       if (newData.statusCode !== 200) {
         let tempError = new Error();
         tempError = {
