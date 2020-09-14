@@ -58,8 +58,8 @@ module.exports = {
         badgeUrls: newData.badgeUrls,
         members: newData.members,
         eventType: 'descriptionChange',
-        previous: oldData.description,
-        current: newData.description,
+        previous: (oldData.description ? oldData.description : 'None'),
+        current: (newData.description ? newData.description : 'None'),
       });
       return callback(true);
     }

@@ -62,7 +62,7 @@ class Client {
    * @callback { Object }
    */
   async on(eventName, callback) {
-    cocEvents.on(eventName, (message) => callback(message));
+    COCEVENTS.on(eventName, (message) => callback(message));
   }
 }
 

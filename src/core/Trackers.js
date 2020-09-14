@@ -19,11 +19,10 @@ const {
   location, requiredTrophies, type, warFrequency, warLeague,
 } = require('../events/ClanEvent/clanEvent');
 
-global.cocEvents = new Events();
+global.COCEVENTS = new Events();
 
 const clansData = new Map();
 const Tags = [];
-let timerReset = 0;
 const Role = ['member', 'admin', 'coLeader', 'leader'];
 
 /**
@@ -110,7 +109,6 @@ class Trackers {
         Tags.push(this._tag(tag));
       }
     }
-    timerReset = new Date().getTime();
     await this.reset();
   }
 
@@ -119,12 +117,12 @@ class Trackers {
    * @function reset()
    */
   async reset() {
-    const newTimerReset = new Date().getTime();
+    const timerReset = new Date().getTime();
     for (const tag of Tags) {
       await this.tracker(this._tag(tag));
     }
-    timerReset = new Date().getTime();
-    await this.sleep(this.sync * 1000 - ((newTimerReset - timerReset ) > 0 && (newTimerReset - timerReset) < this.sync * 1000) ? (newTimerReset - timerReset) : 0);
+    const newTimerReset = new Date().getTime();
+    await this.sleep(((this.sync * 1000) - (((newTimerReset - timerReset) > 0 && (newTimerReset - timerReset) < this.sync * 1000) ? (newTimerReset - timerReset) : (this.sync * 1000))));
     await this.reset();
   }
 
@@ -172,7 +170,7 @@ class Trackers {
         // Donation Event
 
         if (this.donationEventStatus) {
-          await donationEvent(cocEvents, oldData, newData, async (check) => {
+          await donationEvent(COCEVENTS, oldData, newData, async (check) => {
             if (check) {
               await this.sleep(1000 / this.ratelimit);
             }
@@ -182,55 +180,55 @@ class Trackers {
         // Clan Events
 
         if (this.clanEventStatus) {
-          await badgeUrls(cocEvents, oldData, newData, async (check) => {
+          await badgeUrls(COCEVENTS, oldData, newData, async (check) => {
             if (check) {
               await this.sleep(1000 / this.ratelimit);
             }
           });
 
-          await type(cocEvents, oldData, newData, async (check) => {
+          await type(COCEVENTS, oldData, newData, async (check) => {
             if (check) {
               await this.sleep(1000 / this.ratelimit);
             }
           });
 
-          await isWarLogPublic(cocEvents, oldData, newData, async (check) => {
+          await isWarLogPublic(COCEVENTS, oldData, newData, async (check) => {
             if (check) {
               await this.sleep(1000 / this.ratelimit);
             }
           });
 
-          await description(cocEvents, oldData, newData, async (check) => {
+          await description(COCEVENTS, oldData, newData, async (check) => {
             if (check) {
               await this.sleep(1000 / this.ratelimit);
             }
           });
 
-          await warFrequency(cocEvents, oldData, newData, async (check) => {
+          await warFrequency(COCEVENTS, oldData, newData, async (check) => {
             if (check) {
               await this.sleep(1000 / this.ratelimit);
             }
           });
 
-          await warLeague(cocEvents, oldData, newData, async (check) => {
+          await warLeague(COCEVENTS, oldData, newData, async (check) => {
             if (check) {
               await this.sleep(1000 / this.ratelimit);
             }
           });
 
-          await requiredTrophies(cocEvents, oldData, newData, async (check) => {
+          await requiredTrophies(COCEVENTS, oldData, newData, async (check) => {
             if (check) {
               await this.sleep(1000 / this.ratelimit);
             }
           });
 
-          await location(cocEvents, oldData, newData, async (check) => {
+          await location(COCEVENTS, oldData, newData, async (check) => {
             if (check) {
               await this.sleep(1000 / this.ratelimit);
             }
           });
 
-          await clanLevel(cocEvents, oldData, newData, async (check) => {
+          await clanLevel(COCEVENTS, oldData, newData, async (check) => {
             if (check) {
               await this.sleep(1000 / this.ratelimit);
             }
@@ -248,13 +246,13 @@ class Trackers {
               const previousPlayer = oldData.memberList.filter((m) => m.tag === j.tag)[0];
               if (Role.indexOf(j.role) < Role.indexOf(newData.role)) {
                 if (this.playerPromoteStatus) {
-                  playerPromote(cocEvents, oldData, newData, previousPlayer, currentPlayer);
+                  playerPromote(COCEVENTS, oldData, newData, previousPlayer, currentPlayer);
                   await this.sleep(1000 / this.ratelimit);
                 }
               } else {
                 // eslint-disable-next-line no-lonely-if
                 if (this.playerDemoteStatus) {
-                  playerDemote(cocEvents, oldData, newData, previousPlayer, currentPlayer);
+                  playerDemote(COCEVENTS, oldData, newData, previousPlayer, currentPlayer);
                   await this.sleep(1000 / this.ratelimit);
                 }
               }
@@ -270,7 +268,7 @@ class Trackers {
           if (join.length > 0) {
             for (const player of join) {
               await this.sleep(1000 / this.ratelimit);
-              playerJoin(cocEvents, player, newData);
+              playerJoin(COCEVENTS, player, newData);
             }
           }
         }
@@ -281,26 +279,26 @@ class Trackers {
           if (left.length > 0) {
             for (const player of left) {
               await this.sleep(1000 / this.ratelimit);
-              playerLeft(cocEvents, player, newData);
+              playerLeft(COCEVENTS, player, newData);
             }
           }
         }
       }
 
       clansData.set(this._tag(newData.tag), newData);
-      this.sleep(100);
+      await this.sleep(100);
     } catch (err) {
       if (err.statusCode === 503) {
-        error(cocEvents, err);
+        error(COCEVENTS, err);
         await this.sleep(1000 * 60 * 5);
       } else if (err.statusCode === 403) {
-        error(cocEvents, err);
+        error(COCEVENTS, err);
         await this.sleep(1000 * 60 * 10);
       } else if (err.statusCode === 429) {
-        error(cocEvents, err);
-        await this.sleep(1000 * 60 * 1);
+        error(COCEVENTS, err);
+        await this.sleep(1000);
       } else {
-        error(cocEvents, err);
+        error(COCEVENTS, err);
         await this.sleep(100);
       }
     }
