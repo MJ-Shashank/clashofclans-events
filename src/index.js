@@ -64,6 +64,13 @@ class Client {
   async on(eventName, callback) {
     COCEVENTS.on(eventName, (message) => callback(message));
   }
+
+  /**
+   * @function stats reuturn details of settings
+   */
+  get stats() {
+    return new Trackers().stats(this);
+  }
 }
 
 module.exports = Client;

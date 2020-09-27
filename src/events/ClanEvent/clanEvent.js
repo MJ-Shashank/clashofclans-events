@@ -19,7 +19,7 @@ module.exports = {
   },
 
   location: (emitter, oldData, newData, callback) => {
-    if ((oldData.location && oldData.location.name) != newData.location.name) {
+    if ((oldData.location && oldData.location.name) != (newData.location && newData.location.name)) {
       emitter.emit('clanEvent', {
         name: newData.name,
         tag: newData.tag,

@@ -48,6 +48,7 @@ class Trackers {
     this.playerLeftStatus = playerLeft;
     this.playerPromoteStatus = playerPromote;
     this.playerDemoteStatus = playerDemote;
+    this.upTime = new Date().toString();
   }
 
   /**
@@ -72,7 +73,7 @@ class Trackers {
   async _fetch(path) {
     const options = {
       hostname: 'api.clashofclans.com',
-      path,
+      path: path,
       method: 'GET',
       headers: {
         Authorization: `Bearer ${this.tokens[0]}`,
@@ -145,6 +146,26 @@ class Trackers {
     if (Tags.indexOf(this._tag(tag)) !== -1) {
       clansData.delete(this._tag(tag));
       Tags.splice(Tags.indexOf(this._tag(tag)), 1);
+    }
+  }
+
+  /**
+   * @function stats reuturn details of settings
+   */
+  stats(settings) {
+    return {
+      upTime: this.upTime,
+      clans: Tags.length,
+      ratelimit: settings.ratelimit,
+      sync: settings.sync,
+      events: {
+        donationEvent: settings.donationEvent,
+        clanEvent: settings.clanEvent,
+        playerJoin: settings.playerJoin,
+        playerLeft: settings.playerLeft,
+        playerPromote: settings.playerPromote,
+        playerDemote: settings.playerDemote
+      }
     }
   }
 
